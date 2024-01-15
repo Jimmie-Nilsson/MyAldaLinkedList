@@ -1,38 +1,38 @@
 import java.util.Iterator;
 
-public class MyALDAList<E> implements ALDAList {
+public class MyALDAList<T> implements ALDAList<T> {
     @Override
-    public void add(Object element) {
+    public void add(T element) {
 
     }
 
     @Override
-    public void add(int index, Object element) {
+    public void add(int index, T element) {
 
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         return null;
     }
 
     @Override
-    public boolean remove(Object element) {
+    public boolean remove(T element) {
         return false;
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         return null;
     }
 
     @Override
-    public boolean contains(Object element) {
+    public boolean contains(T element) {
         return false;
     }
 
     @Override
-    public int indexOf(Object element) {
+    public int indexOf(T element) {
         return 0;
     }
 
