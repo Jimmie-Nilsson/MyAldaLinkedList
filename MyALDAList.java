@@ -1,3 +1,5 @@
+// Jimmie Nilsson jini6619
+
 import java.util.Iterator;
 
 public class MyALDAList<T> implements ALDAList<T> {
@@ -47,7 +49,16 @@ public class MyALDAList<T> implements ALDAList<T> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return null;
+    }
+
+    private static class Node<T> {
+        T data;
+        Node<T> next;
+
+        public Node(T data) {
+            this.data = data;
+        }
     }
 }
