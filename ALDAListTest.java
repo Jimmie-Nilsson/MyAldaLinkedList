@@ -72,71 +72,71 @@ public class ALDAListTest {
 		}
 	}
 
-//	@BeforeEach
-//	public void setUp() {
-//		list.add("First");
-//		list.add("Second");
-//		list.add("Third");
-//		list.add("Fourth");
-//		list.add("Fifth");
-//	}
-//
-//	@Test
-//	public void testEmpty() {
-//		// Since setUp enters a number of items into the list
-//		list = createNewList();
-//		assertEquals(0, list.size());
-//		assertEquals("[]", list.toString());
-//	}
-//
-//	@Test
-//	public void testGetOnEmptyList() {
-//		// Since setUp enters a number of items into the list
-//		list = createNewList();
-//		assertThrows(IndexOutOfBoundsException.class, () -> {
-//			list.get(0);
-//		});
-//	}
-//
-//	@Test
-//	public void testSimpleMethodsOnDefaultList() {
-//		assertEquals(5, list.size());
-//		assertEquals("First", list.get(0));
-//		assertEquals("Third", list.get(2));
-//		assertEquals("Fifth", list.get(4));
-//		assertEquals("[First, Second, Third, Fourth, Fifth]", list.toString());
-//
-//		list.add("Second");
-//		assertEquals(6, list.size());
-//		assertEquals("Second", list.get(5));
-//	}
-//
-//	@Test
-//	public void testIndexBelowZero() {
-//		assertThrows(IndexOutOfBoundsException.class, () -> {
-//			list.get(-1);
-//		});
-//	}
-//
-//	@Test
-//	public void testIndexAboveMax() {
-//		assertThrows(IndexOutOfBoundsException.class, () -> {
-//			list.get(5);
-//		});
-//	}
-//
-//	@Test
-//	public void addWithIndex() {
-//		list.add(0, "A");
-//		list.add(6, "B");
-//		list.add(2, "C");
-//		assertEquals(8, list.size());
-//		assertEquals("A", list.get(0));
-//		assertEquals("C", list.get(2));
-//		assertEquals("B", list.get(7));
-//		assertEquals("[A, First, C, Second, Third, Fourth, Fifth, B]", list.toString());
-//	}
-//
+	@BeforeEach
+	public void setUp() {
+		list.add("First");
+		list.add("Second");
+		list.add("Third");
+		list.add("Fourth");
+		list.add("Fifth");
+	}
+
+	@Test
+	public void testEmpty() {
+		// Since setUp enters a number of items into the list
+		list = createNewList();
+		assertEquals(0, list.size());
+		assertEquals("[]", list.toString());
+	}
+
+	@Test
+	public void testGetOnEmptyList() {
+		// Since setUp enters a number of items into the list
+		list = createNewList();
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			list.get(0);
+		});
+	}
+
+	@Test
+	public void testSimpleMethodsOnDefaultList() {
+		assertEquals(5, list.size());
+		assertEquals("First", list.get(0));
+		assertEquals("Third", list.get(2));
+		assertEquals("Fifth", list.get(4));
+		assertEquals("[First, Second, Third, Fourth, Fifth]", list.toString());
+
+		list.add("Second");
+		assertEquals(6, list.size());
+		assertEquals("Second", list.get(5));
+	}
+
+	@Test
+	public void testIndexBelowZero() {
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			list.get(-1);
+		});
+	}
+
+	@Test
+	public void testIndexAboveMax() {
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			list.get(5);
+		});
+	}
+
+	@Test
+	public void addWithIndex() {
+		list.add(0, "A");
+		list.add(6, "B");
+		list.add(2, "C");
+		assertEquals(8, list.size());
+		assertEquals("A", list.get(0));
+		assertEquals("C", list.get(2));
+		assertEquals("B", list.get(7));
+		assertEquals("[A, First, C, Second, Third, Fourth, Fifth, B]", list.toString());
+	}
+
 //	@Test
 //	public void testAddIndexBelowZero() {
 //		assertThrows(IndexOutOfBoundsException.class, () -> {
