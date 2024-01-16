@@ -1,9 +1,9 @@
-// Jimmie Nilsson jini6619
+// @author Jimmie Nilsson jini6619
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MyALDAList<T> implements ALDAList<T>, Iterable<T> {
+public class MyALDAList<T> implements ALDAList<T> {
 
 
     private Node<T> first;
@@ -34,6 +34,7 @@ public class MyALDAList<T> implements ALDAList<T>, Iterable<T> {
                 return;
             }
             if (i == index -1){
+                // THIS IS NOT RIGHT
                 newElement.next = temp.next;
                 temp.next = newElement;
                 return;
@@ -62,6 +63,7 @@ public class MyALDAList<T> implements ALDAList<T>, Iterable<T> {
         for (Node<T> temp = first; temp.next != null; temp = temp.next){
 
         }
+        return null;
     }
     private boolean isEmpty(){
         if (first == null){
