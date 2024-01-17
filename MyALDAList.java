@@ -1,22 +1,23 @@
 // @author Jimmie Nilsson jini6619
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyALDAList<T> implements ALDAList<T> {
 
 
-    private Node<T> first;
-    private Node<T> last;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     @Override
     public void add(T element) {
-        if (first == null) {
-            first = new Node<>(element);
-            last = first;
+        if (isEmpty()) {
+            head = new Node<>(element);
+            tail = head;
         } else {
-            last.next = new Node<>(element);
-            last = last.next;
+            tail.next = new Node<>(element);
+            tail = tail.next;
         }
         size++;
     }
@@ -27,23 +28,28 @@ public class MyALDAList<T> implements ALDAList<T> {
             throw new IndexOutOfBoundsException("Index is negative or greater than the size of the list");
         }
         Node<T> newElement = new Node<>(element);
+        if (isEmpty()){
+            head = newElement;
+            tail = newElement;
+            return;
+        }
         if (index == 0) {
-            newElement.next = first;
-            first = newElement;
+            newElement.next = head;
+            head = newElement;
             size++;
             return;
         }
         if (index == size) {
-            last.next = newElement;
-            last = newElement;
+            tail.next = newElement;
+            tail = newElement;
             size++;
             return;
         }
         int i = 0;
-        for (Node<T> temp = first; temp != null; temp = temp.next) {
+        for (Node<T> current = head; current != null; current = current.next) {
             if (i == index - 1) {
-                newElement.next = temp.next;
-                temp.next = newElement;
+                newElement.next = current.next;
+                current.next = newElement;
                 size++;
                 return;
             }
@@ -59,37 +65,44 @@ public class MyALDAList<T> implements ALDAList<T> {
         if (isEmpty()) {
             throw new IndexOutOfBoundsException();
         }
-        Node<T> removed;
         if (index == 0) {
-            removed = first;
-            first = first.next;
+            Node<T> removed = head;
+            head = head.next;
             size--;
             return removed.data;
         }
-        int i = 0;
-        Node<T> previous = first;
-        for (Node<T> current = first; current != null; previous = current, current = current.next) {
-            if (i == index){
-                previous.next = current.next;
-                size--;
-                return current.data;
-            }
-            i++;
+
+        Node<T> previous = null;
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            previous = current;
+           current = current.next;
         }
-        return null;
+        if (current.next == null){
+            previous.next = null;
+        }else {
+            previous.next = current.next;
+        }
+        size--;
+        return current.data;
+
     }
 
     @Override
     public boolean remove(T element) {
-        if (first.data == element || first.data.equals(element)) {
-            first = first.next;
+        if (head.data == element || head.data.equals(element)) {
+            head = head.next;
             size--;
             return true;
         }
-        Node<T> previous = first;
-        for (Node<T> current = first.next; current != null; previous = current, current = current.next) {
-            if (current.data == element || current.data.equals(element)){
+        Node<T> previous = head;
+        for (Node<T> current = head.next; current != null; previous = current, current = current.next) {
+            if ((current.data == element || current.data.equals(element)) && current.next != null) {
                 previous.next = current.next;
+                size--;
+                return true;
+            }else if ((current.data == element || current.data.equals(element)) && current.next == null){
+                previous.next = null;
                 size--;
                 return true;
             }
@@ -106,7 +119,7 @@ public class MyALDAList<T> implements ALDAList<T> {
             throw new IndexOutOfBoundsException();
         }
         int i = 0;
-        for (Node<T> temp = first; temp != null; temp = temp.next) {
+        for (Node<T> temp = head; temp != null; temp = temp.next) {
             if (i == index) {
                 return temp.data;
             }
@@ -116,7 +129,7 @@ public class MyALDAList<T> implements ALDAList<T> {
     }
 
     private boolean isEmpty() {
-        if (first == null) {
+        if (head == null) {
             return true;
         }
         return false;
@@ -124,7 +137,7 @@ public class MyALDAList<T> implements ALDAList<T> {
 
     @Override
     public boolean contains(T element) {
-        for (Node<T> temp = first; temp != null; temp = temp.next) {
+        for (Node<T> temp = head; temp != null; temp = temp.next) {
             if (temp.data == element || temp.data.equals(element)) {
                 return true;
             }
@@ -135,8 +148,8 @@ public class MyALDAList<T> implements ALDAList<T> {
     @Override
     public int indexOf(T element) {
         int index = 0;
-        for (Node<T> current = first; current != null; current = current.next){
-            if (current.data == element || current.data.equals(element)){
+        for (Node<T> current = head; current != null; current = current.next) {
+            if (current.data == element || current.data.equals(element)) {
                 return index;
             }
             index++;
@@ -146,8 +159,8 @@ public class MyALDAList<T> implements ALDAList<T> {
 
     @Override
     public void clear() {
-        first = null;
-        last = null;
+        head = null;
+        tail = null;
         size = 0;
     }
 
@@ -164,12 +177,12 @@ public class MyALDAList<T> implements ALDAList<T> {
     }
 
     public String toString() {
-        if (first == null) {
+        if (head == null) {
             return "[]";
         }
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Node<T> temp = first; temp != null; temp = temp.next) {
+        for (Node<T> temp = head; temp != null; temp = temp.next) {
             sb.append(temp.data);
             if (temp.next != null) {
                 sb.append(", ");
@@ -183,7 +196,7 @@ public class MyALDAList<T> implements ALDAList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            Node<T> current = first;
+            Node<T> current = head;
 
             @Override
             public boolean hasNext() {
@@ -192,12 +205,12 @@ public class MyALDAList<T> implements ALDAList<T> {
 
             @Override
             public T next() {
-                if (hasNext()) {
-                    T data = current.data;
-                    current = current.next;
-                    return data;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                return null;
+                T data = current.data;
+                current = current.next;
+                return data;
             }
         };
     }
