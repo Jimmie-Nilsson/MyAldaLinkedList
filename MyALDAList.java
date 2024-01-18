@@ -29,7 +29,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         }
         Node<T> newElement = new Node<>(element);
         if (isEmpty()) {
-            add(newElement.data);
+            add(element);
             return;
         }
         if (index == 0) {
@@ -52,6 +52,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         }
     }
 
+
     @Override
     public T remove(int index) {
         if (!isIndexWithinBounds(index) || isEmpty()) {
@@ -59,8 +60,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         }
         if (index == 0) {
             Node<T> removed = head;
-            head = head.next;
-            size--;
+            removeFirst();
             return removed.data;
         }
         Node<T> previous = null;
@@ -83,19 +83,18 @@ public class MyALDAList<T> implements ALDAList<T> {
     @Override
     public boolean remove(T element) {
         if (head.data == element || head.data.equals(element)) {
-            head = head.next;
-            size--;
+            removeFirst();
             return true;
         }
         Node<T> previous = head;
         for (Node<T> current = head.next; current != null; previous = current, current = current.next) {
-            if ((current.data == element || current.data.equals(element)) && current.next != null) {
-                previous.next = current.next;
-                size--;
-                return true;
-            } else if ((current.data == element || current.data.equals(element)) && current.next == null) {
-                previous.next = null;
-                tail = previous;
+            if ((current.data == element || current.data.equals(element))) {
+                if (current.next == null){ // if removing last element update tail
+                    previous.next = null;
+                    tail = previous;
+                }else { // in all other cases
+                    previous.next = current.next;
+                }
                 size--;
                 return true;
             }
@@ -105,10 +104,7 @@ public class MyALDAList<T> implements ALDAList<T> {
 
     @Override
     public T get(int index) {
-        if (!isIndexWithinBounds(index)) {
-            throw new IndexOutOfBoundsException("Index is not within list");
-        }
-        if (isEmpty()) {
+        if (!isIndexWithinBounds(index) || isEmpty()) {
             throw new IndexOutOfBoundsException();
         }
         int i = 0;
@@ -122,10 +118,7 @@ public class MyALDAList<T> implements ALDAList<T> {
     }
 
     private boolean isEmpty() {
-        if (head == null) {
-            return true;
-        }
-        return false;
+        return head == null;
     }
 
     @Override
@@ -179,6 +172,11 @@ public class MyALDAList<T> implements ALDAList<T> {
             return false;
         }
         return true;
+    }
+
+    private void removeFirst() {
+        head = head.next;
+        size--;
     }
 
     public String toString() {
@@ -253,7 +251,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         T data;
         Node<T> next;
 
-        public Node(T data) {
+        private Node(T data) {
             this.data = data;
         }
     }
