@@ -54,10 +54,7 @@ public class MyALDAList<T> implements ALDAList<T> {
 
     @Override
     public T remove(int index) {
-        if (!isIndexWithinBounds(index)) {
-            throw new IndexOutOfBoundsException("Index is bigger than the list");
-        }
-        if (isEmpty()) {
+        if (!isIndexWithinBounds(index) || isEmpty()) {
             throw new IndexOutOfBoundsException();
         }
         if (index == 0) {
@@ -206,6 +203,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         return new Iterator<T>() {
             Node<T> current = head;
             Node<T> previous;
+            Node<T> previousPrevious;
             boolean canRemove;
 
             @Override
@@ -218,6 +216,7 @@ public class MyALDAList<T> implements ALDAList<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
+                previousPrevious = previous;
                 previous = current;
                 T data = current.data;
                 current = current.next;
@@ -230,15 +229,17 @@ public class MyALDAList<T> implements ALDAList<T> {
                 if (!canRemove) {
                     throw new IllegalStateException();
                 }
-                if (previous == null) {
-                    head = head.next;
+                if (previousPrevious == null) {
+                    head = current;
+                    previous = previousPrevious;
                     if (head == null) {
                         tail = null;
                     }
                 } else {
-                    previous.next = current.next;
+                    previousPrevious.next = current;
+                    previous = previousPrevious;
                     if (current == null) {
-                        tail = previous;
+                        tail = previousPrevious;
                     }
                 }
                 canRemove = false;
@@ -251,6 +252,7 @@ public class MyALDAList<T> implements ALDAList<T> {
     private static class Node<T> {
         T data;
         Node<T> next;
+
         public Node(T data) {
             this.data = data;
         }
