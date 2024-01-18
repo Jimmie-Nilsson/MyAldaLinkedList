@@ -1,4 +1,7 @@
-// @author Jimmie Nilsson jini6619
+/**
+ *  @author Jimmie Nilsson jini6619
+ *
+ */
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
