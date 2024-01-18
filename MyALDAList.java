@@ -94,7 +94,7 @@ public class MyALDAList<T> implements ALDAList<T> {
         }
         Node<T> previous = head;
         for (Node<T> current = head.next; current != null; previous = current, current = current.next) {
-            if ((current.data == element || current.data.equals(element))) {
+            if (current.data == element || current.data.equals(element)) {
                 if (current.next == null) { // if removing last element update tail
                     previous.next = null;
                     tail = previous;
@@ -205,10 +205,10 @@ public class MyALDAList<T> implements ALDAList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            Node<T> current = head;
-            Node<T> previous;
-            Node<T> previousPrevious;
-            boolean canRemove;
+            private Node<T> current = head;
+            private Node<T> previous;
+            private Node<T> previousPrevious;
+            private boolean canRemove;
 
             @Override
             public boolean hasNext() {
@@ -254,8 +254,8 @@ public class MyALDAList<T> implements ALDAList<T> {
 
 
     private static class Node<T> {
-        T data;
-        Node<T> next;
+        private T data;
+        private Node<T> next;
 
         private Node(T data) {
             this.data = data;
