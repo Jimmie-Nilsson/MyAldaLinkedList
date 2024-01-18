@@ -82,6 +82,9 @@ public class MyALDAList<T> implements ALDAList<T> {
 
     @Override
     public boolean remove(T element) {
+        if (isEmpty()) {
+            throw new IndexOutOfBoundsException();
+        }
         if (head.data == element || head.data.equals(element)) {
             removeFirst();
             return true;
@@ -89,10 +92,10 @@ public class MyALDAList<T> implements ALDAList<T> {
         Node<T> previous = head;
         for (Node<T> current = head.next; current != null; previous = current, current = current.next) {
             if ((current.data == element || current.data.equals(element))) {
-                if (current.next == null){ // if removing last element update tail
+                if (current.next == null) { // if removing last element update tail
                     previous.next = null;
                     tail = previous;
-                }else { // in all other cases
+                } else { // in all other cases
                     previous.next = current.next;
                 }
                 size--;
